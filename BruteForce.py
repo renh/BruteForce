@@ -65,12 +65,19 @@ if __name__ == '__main__':
 
     parser.add_argument('-n', '--negative', help='Allow negative results',
                         action='store_true')
+    parser.add_argument('-s', '--seed', help='Random seed',
+                        default=None)
     args = parser.parse_args()
 
     LB = args.lowerbound
     HB = args.upperbound
     negative = args.negative
     ops = args.operators
+    seed = args.seed
+    if not seed:
+        seed = datetime.now().strftime("%Y%m%d%H%M")
+    random.seed(seed)
+
 
     exps = []
     while len(exps) < 50:
@@ -114,6 +121,7 @@ if __name__ == '__main__':
                 va='bottom', ha='left', family='serif')
     dt_str = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     ax.text(190,10, "Created at {}".format(dt_str), ha='right')
+    ax.text(20,10, "Random seed: {}".format(seed), ha='left')
 
     plt.savefig('exercises.pdf')
 
